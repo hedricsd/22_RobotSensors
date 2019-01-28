@@ -11,13 +11,13 @@ import time
 import math
 
 # -----------------------------------------------------------------------------
-# TODO 2:  With your instructor, do quiz questions 1 through 5.
+# DONE 2:  With your instructor, do quiz questions 1 through 5.
 #          After you understand the answers to those questions,
 #          mark this _TODO_ as DONE.
 # -----------------------------------------------------------------------------
 
 # -----------------------------------------------------------------------------
-# TODO 3:  With your instructor, do quiz questions 6 through XXX.
+# DONE 3:  With your instructor, do quiz questions 6 through XXX.
 #          After you understand the answers to those questions,
 #          mark this _TODO_ as DONE.
 # -----------------------------------------------------------------------------
@@ -43,7 +43,7 @@ def run_test_beep_and_tone():
        -- tone method of the ToneMaker class
     """
     # -------------------------------------------------------------------------
-    # TODO: 4.  Implement and test this method.
+    # DONE: 4.  Implement and test this method.
     # -------------------------------------------------------------------------
     # IMPORTANT:
     #   For testing the   beep   method,
@@ -58,7 +58,11 @@ def run_test_beep_and_tone():
     #   Do not forget to apply the   wait   method to tone, as usual.
     # -------------------------------------------------------------------------
     b = Beeper()
-    b.beep().wait()
+    for _ in range(10):
+        b.beep().wait()
+    t = ToneMaker()
+    for k in range(10):
+        t.tone(100 + (10 * k), 50)
 
 # -----------------------------------------------------------------------------
 # TODO 5:  With your instructor, do quiz questions XXX through XXX.
@@ -356,8 +360,16 @@ class DriveSystem(object):
         self.go_straight_for_seconds(seconds, speed)
 
     def go_straight_for_inches_using_sensor(self, inches, speed):
-        pass
-        # Live code this with students
+        inches_per_degree = self.left_motor.WheelCircumference / 360
+        desired_degrees = inches / inches_per_degree
+
+        self.left_motor.reset_position()
+        self.go(speed, speed)
+        while True:
+            if abs(self.left_motor.get_position()) >= desired_degrees:
+                self.stop()
+                break
+
 
     def go_straight_until_black(self, speed):
         """
